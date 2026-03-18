@@ -1,0 +1,1 @@
+require("whatsapp_translate")
