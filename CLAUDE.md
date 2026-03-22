@@ -1,19 +1,30 @@
 # WhatsApp Russian Translator
 
-Hammerspoon script that intercepts `Cmd+Shift+Return` in WhatsApp on macOS, translates the typed English text to Russian via Google Translate's free endpoint, and sends the message.
+Hammerspoon script that intercepts `Cmd+Shift+Return` in WhatsApp on macOS, translates the typed English text to casual Russian via Groq (Llama 3.3 70B), and sends the message. Falls back to Google Translate if Groq is unavailable.
 
 ## Files
 
 - `init.lua` — Hammerspoon entry point, just requires `whatsapp_translate`
 - `whatsapp_translate.lua` — all logic: hotkey binding, AX element reading, translation API call, clipboard-based text replacement
 
+## Setup
+
+1. Get a free API key from [console.groq.com](https://console.groq.com)
+2. Create `~/.hammerspoon/translator_config.lua`:
+   ```lua
+   return { api_key = "gsk_..." }
+   ```
+3. This file is gitignored — never commit it
+
 ## How It Works
 
 1. Hotkey fires → grab focused AX element via `hs.axuielement.systemWideElement():attributeValue("AXFocusedUIElement")`
 2. Read `AXValue` to get the typed text
-3. HTTP GET to `translate.googleapis.com` (no API key needed)
-4. Assemble translated string from `response[0][i][0]` parts
-5. Save clipboard, set clipboard to translation, `Cmd+A` → `Cmd+V` → `Return`, restore clipboard
+3. POST to Groq API (`llama-3.3-70b-versatile`) with a system prompt for casual Russian texting style
+4. Parse 3 translation options from `response.choices[1].message.content`
+5. Show `hs.chooser` picker — user selects preferred translation
+6. Save clipboard, set clipboard to translation, `Cmd+A` → `Cmd+V`, restore clipboard
+7. On any Groq error, falls back to Google Translate (direct paste, no chooser)
 
 ## Deployment
 
