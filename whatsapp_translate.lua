@@ -79,7 +79,7 @@ local function getTranslation(text, callback, fallbackCallback)
   local url = "https://api.groq.com/openai/v1/chat/completions"
 
   local requestBody = hs.json.encode({
-    model = "llama-3.3-70b-versatile",
+    model = "qwen/qwen3.8-27b",
     messages = {
       { role = "system", content = SYSTEM_PROMPT },
       { role = "user", content = text },

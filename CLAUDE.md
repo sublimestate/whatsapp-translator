@@ -1,6 +1,6 @@
 # WhatsApp Russian Translator
 
-Hammerspoon script that intercepts `Cmd+Shift+Return` in WhatsApp on macOS, translates the typed English text to casual Russian via Groq (Llama 3.3 70B), and sends the message. Falls back to Google Translate if Groq is unavailable.
+Hammerspoon script that intercepts `Cmd+Shift+Return` in WhatsApp on macOS, translates the typed English text to casual Russian via Groq (Qwen 3.8 27B), and sends the message. Falls back to Google Translate if Groq is unavailable.
 
 ## Files
 
@@ -20,7 +20,7 @@ Hammerspoon script that intercepts `Cmd+Shift+Return` in WhatsApp on macOS, tran
 
 1. Hotkey fires → grab focused AX element via `hs.axuielement.systemWideElement():attributeValue("AXFocusedUIElement")`
 2. Read `AXValue` to get the typed text
-3. POST to Groq API (`llama-3.3-70b-versatile`) with a system prompt for casual Russian texting style
+3. POST to Groq API (`qwen/qwen3.8-27b`) with a system prompt for casual Russian texting style
 4. Parse 3 translation options from `response.choices[1].message.content`
 5. Show `hs.chooser` picker — user selects preferred translation
 6. Save clipboard, set clipboard to translation, `Cmd+A` → `Cmd+V`, restore clipboard
