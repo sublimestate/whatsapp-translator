@@ -1,0 +1,6 @@
+-- Save this file to ~/.hammerspoon/translator_config.lua
+-- Get a free API key at https://console.groq.com
+
+return {
+  api_key = "gsk_your_groq_api_key_here"
+}

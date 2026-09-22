@@ -1,1 +1,9 @@
+# Configuration & secrets
+translator_config.lua
 gemini_config.lua
+*_config.lua
+*.env
+.env*
+
+# macOS
+.DS_Store
